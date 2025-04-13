@@ -753,7 +753,6 @@ if not st.session_state.logged_in:
                     else:
                         st.warning("Patient data not found. Some features may be limited.")
                 
-            st.query_params.update({"auth": "true", "user": username})
             st.rerun()
         else:
             st.error("Invalid credentials")
@@ -761,14 +760,14 @@ if not st.session_state.logged_in:
 
 if st.session_state.logged_in:
     st.markdown("""
-    <style>
+        <style>
         .logout-button-container {
             position: fixed;
-            top: 50px;  /* Adjusted from 10px to 50px */
-            right: 25px;
+            top: 60px;  /* Adjusted further down from top */
+            right: 20px;
             z-index: 9999;
         }
-        .logout-button-container button {
+        .logout-button {
             background-color: #f0f0f0;
             color: #1f2937;
             border: 1px solid #ccc;
@@ -777,22 +776,21 @@ if st.session_state.logged_in:
             font-weight: 500;
             cursor: pointer;
         }
-    </style>
-    <div class="logout-button-container">
-        <form action="" method="post">
-            <button type="submit" name="logout">Logout</button>
-        </form>
-    </div>
+        </style>
+        <div class="logout-button-container">
+            <form action="" method="GET">
+                <button class="logout-button" name="logout" type="submit">Logout</button>
+            </form>
+        </div>
     """, unsafe_allow_html=True)
 
-    # Trigger logout via query param workaround
-    query_params = st.query_params
-    if query_params.get("logout"):
+    # Handle logout via query param
+    if st.query_params.get("logout") == "":
         st.session_state.logged_in = False
         st.session_state.username = None
-        st.query_params.update({"auth": "false", "user": ""})
+        st.session_state.current_patient = None
+        st.query_params.clear()
         st.rerun()
-
 
 # Extract medications
 active_medications, stopped_medications = [], []
