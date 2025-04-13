@@ -101,6 +101,12 @@ if st.session_state.theme == "dark":
         .st-emotion-cache-sh2krr p {
             color: #f5f5f5 !important;
         }
+                <style>
+        /* Make all tab button text white */
+        button[role="tab"] p {
+            color: white !important;
+        }
+
         </style>
     """, unsafe_allow_html=True)
 
