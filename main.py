@@ -107,7 +107,12 @@ if st.session_state.theme == "dark":
             color: white !important;
         }
 
-        </style>
+    /* Force text inside stMarkdownContainer to be readable in dark mode */
+    div[data-testid="stMarkdownContainer"] p {
+        color: #e0ffe0 !important;  /* light greenish-white for readability */
+        font-weight: 500;
+    }
+    </style>
     """, unsafe_allow_html=True)
 
 else:
